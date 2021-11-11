@@ -10,11 +10,12 @@ public class PickUp : MonoBehaviour
     {
         GetComponent<BoxCollider>().enabled = false;
         GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         //GetComponent<Rigidbody>().isKinematic = true;
 
         //this.transform.position = theDest.position;
         //this.transform.parent = GameObject.Find("Destination").transform;
-
+        GetComponent<EnforceFollowParent>().enabled = true;
         GetComponent<EnforceFollowParent>().transformToFollow = GameObject.Find("Destination").transform;
     }
    void OnMouseUp()
@@ -22,8 +23,11 @@ public class PickUp : MonoBehaviour
         //this.transform.parent = null;
         GetComponent<Rigidbody>().useGravity = true;
         GetComponent<BoxCollider>().enabled = true;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
         //GetComponent<Rigidbody>().isKinematic = false;
 
+        GetComponent<EnforceFollowParent>().enabled = false;
         GetComponent<EnforceFollowParent>().transformToFollow = null;
 
     }
