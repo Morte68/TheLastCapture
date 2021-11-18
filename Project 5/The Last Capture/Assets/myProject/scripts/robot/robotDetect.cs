@@ -6,22 +6,14 @@ public class robotDetect : MonoBehaviour
 {
     [SerializeField] private float rayDistance = 50.0f;
     Color colorChange = Color.red;
-    //  Vector3 origion = transform.position;
-    //  Vector3 direction = transform.forward;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    Color colorOrigion = Color.white;
+ 
     void Update()
     {
-        RaycastSingle();
+        RaycastPlayer();
     }
 
-    void RaycastSingle()
+    void RaycastPlayer()
     {
         Vector3 origion = transform.position;
         Vector3 direction = transform.forward;
@@ -31,19 +23,18 @@ public class robotDetect : MonoBehaviour
         RaycastHit raycastHit;
         if(Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject.CompareTag("Player"))
         {
-            // raycastHit.collider.GetComponent<renderer>().material.color = colorChange;
             GetComponent<Renderer>().material.color = colorChange;
-            GetComponent<robotNavMesh>().enabled = true;
+            GetComponent<robotChase>().enabled = true;
             GetComponent<robotPatrol>().enabled = false;
-
-            GetComponent<robotNavMesh>().ResetTimer();
+            GetComponent<robotChase>().ResetTimer();
 
         }
         else
         {
-            if(GetComponent<robotNavMesh>().ShouldStopChasing())
+            if(GetComponent<robotChase>().chaseStop())
             {
-                GetComponent<robotNavMesh>().enabled = false;
+                GetComponent<Renderer>().material.color = colorOrigion;
+                GetComponent<robotChase>().enabled = false;
                 GetComponent<robotPatrol>().enabled = true;
             }
         }
