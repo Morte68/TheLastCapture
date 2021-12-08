@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - lighting
+  - Door
+  - Piece 2
+  - Collider
+  - Piece 3
+  - Piece 1
+  - Robot
   layers:
   - Default
   - TransparentFX
