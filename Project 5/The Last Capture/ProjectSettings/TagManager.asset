@@ -11,6 +11,7 @@ TagManager:
   - Piece 3
   - Piece 1
   - Robot
+  - PlayerCamera
   layers:
   - Default
   - TransparentFX
