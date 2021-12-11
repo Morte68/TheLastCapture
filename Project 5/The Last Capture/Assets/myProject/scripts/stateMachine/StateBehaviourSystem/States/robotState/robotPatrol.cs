@@ -60,11 +60,11 @@ public class robotPatrol : AStateBehaviour
 
     private bool PlayerDetected()
     {
-        Vector3 origion = transform.position;
+        Vector3 origin = transform.position;
         Vector3 direction = transform.forward;
 
-        Debug.DrawRay(origion, direction * rayDistance, Color.red);
-        Ray ray = new Ray(origion, direction);
+        Debug.DrawRay(origin, direction * rayDistance, Color.red);
+        Ray ray = new Ray(origin, direction);
         RaycastHit raycastHit;
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject.CompareTag("Player");
     }

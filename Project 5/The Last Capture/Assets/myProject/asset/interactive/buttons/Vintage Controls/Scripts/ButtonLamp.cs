@@ -19,8 +19,7 @@ public class ButtonLamp : MonoBehaviour
     [SerializeField] float rayDistance = 2f;
     bool isOpened = false;
     GameObject robot;
-    [SerializeField] Transform robotChangePoint;
-    [SerializeField] float speed_return = 8f;
+    
 
     public bool on;
     public Transform lamp;
@@ -31,10 +30,9 @@ public class ButtonLamp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        robot = GameObject.FindWithTag("Robot");
         player = GameObject.FindWithTag("Player");
         playerCamera = GameObject.FindWithTag("PlayerCamera");
-        robot = GameObject.FindWithTag("Robot");
-
         rend = lamp.GetComponent<Renderer>();
     }
 
@@ -45,12 +43,10 @@ public class ButtonLamp : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
+                robot.GetComponent<StateMachine>().setState((int)ERobotState.goToChangePoint);
+
                 prompt.SetActive(false);
                 lightColor = eColor.Green;
-                robot.GetComponent<StateMachine>().enabled = false;
-                robot.GetComponent<NavMeshAgent>().destination = robotChangePoint.position;
-                robot.GetComponent<NavMeshAgent>().speed = speed_return;
-                robot.GetComponent<NavMeshAgent>().angularSpeed = 240;
                 isOpened = true;
             }
 
@@ -93,11 +89,11 @@ public class ButtonLamp : MonoBehaviour
 
     bool PlayerRay()
     {
-        Vector3 origion = playerCamera.transform.position;
+        Vector3 origin = playerCamera.transform.position;
         Vector3 direction = playerCamera.transform.forward;
 
-        Debug.DrawRay(origion, direction * rayDistance, Color.red);
-        Ray ray = new Ray(origion, direction);
+        Debug.DrawRay(origin, direction * rayDistance, Color.red);
+        Ray ray = new Ray(origin, direction);
         RaycastHit raycastHit;
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject;
     }

@@ -10,5 +10,9 @@ public enum ERobotState
     Idle = 0,
     Chase = 1,
     Patrol = 2,
+    goToChangePoint = 3,
+    goToShootPoint = 4,
+    prepareProtect = 5,
+    protect = 6,
 }
 
