@@ -8,6 +8,7 @@ public class robotGoChangePoint : AStateBehaviour
     GameObject robot;
     [SerializeField] Transform robotChangePoint;
     [SerializeField] float speed_return = 8f;
+    [SerializeField] float time_waitForChange = 10f;
     bool hasLaunchedIENumerator = false;
 
 
@@ -34,7 +35,7 @@ public class robotGoChangePoint : AStateBehaviour
 
     public override int StateTransitionCondition()
     {
-        if (Vector3.Distance(robot.transform.position, robotChangePoint.position) < robot.GetComponent<NavMeshAgent>().stoppingDistance && hasLaunchedIENumerator == false)
+        if (Vector3.Distance(robot.transform.position, robotChangePoint.position) <= 2f && hasLaunchedIENumerator == false)
         {
             hasLaunchedIENumerator = true;
             StartCoroutine(WaitForFixTime());
@@ -45,8 +46,8 @@ public class robotGoChangePoint : AStateBehaviour
 
     IEnumerator WaitForFixTime ()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(time_waitForChange);
         AssociatedStateMachine.setState((int)ERobotState.goToShootPoint);
-        hasLaunchedIENumerator = false;
+        //hasLaunchedIENumerator = false;
     }
 }

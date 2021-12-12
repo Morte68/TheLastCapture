@@ -12,7 +12,8 @@ public enum ERobotState
     Patrol = 2,
     goToChangePoint = 3,
     goToShootPoint = 4,
-    prepareProtect = 5,
-    protect = 6,
+    afterShoot = 5,
+    prepareProtect = 6,
+    protect = 7,
 }
 
