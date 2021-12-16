@@ -12,7 +12,8 @@ public class trigger_keyCardAccess : MonoBehaviour
     [SerializeField] Material keycardAccess_open;
     Renderer rend;
     bool isOpened = false;
-    //[SerializeField] Script Trigger_keycardAccess;
+    //[SerializeField] Script Trigger_keycardAccess;\
+    [SerializeField] Animator doorMove; 
 
 
     // Start is called before the first frame update
@@ -22,6 +23,8 @@ public class trigger_keyCardAccess : MonoBehaviour
         playerCamera = GameObject.FindWithTag("PlayerCamera");
         rend = GetComponent<Renderer>();
         rend.enabled = true;
+        doorMove = GetComponent<Animator>();
+        //doorMove = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -34,6 +37,8 @@ public class trigger_keyCardAccess : MonoBehaviour
                 prompt.SetActive(false);
                 rend.sharedMaterial = keycardAccess_open;
                 //GetComponent<Trigger_keyCardAccess>().enabled = false;
+                //doorMove.gameObject.GetComponent<Animator>().enabled = true;
+                doorMove.enabled = true;
                 isOpened = true;
             }
 
