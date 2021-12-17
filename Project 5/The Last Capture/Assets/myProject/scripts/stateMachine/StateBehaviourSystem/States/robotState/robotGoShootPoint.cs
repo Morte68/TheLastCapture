@@ -6,12 +6,19 @@ using UnityEngine.AI;
 public class robotGoShootPoint : AStateBehaviour
 {
     GameObject robot;
+    [SerializeField] GameObject[] VFX_shoot;
+    [SerializeField] Transform door;
     [SerializeField] Transform robotShootPoint;
+    [SerializeField] Animator animator_doorCrush;
     [SerializeField] float speed_goDoor = 8f;
-    [SerializeField] float time_waitForShoot = 10f;
     [SerializeField] float speed_turn = 0.1f;
+    [SerializeField] float time_shoot_0 = 1.5f;
+    [SerializeField] float time_shoot_1 = 1.5f;
+    [SerializeField] float time_shoot_2 = 1.5f;
+    [SerializeField] float time_doorCrush = 7f;
+    [SerializeField] float time_finishing = 1.5f;
     bool IEnumerator_hasLaunched = false;
-    bool isStopping = false;
+    bool isFacingDoor = false;
 
 
     public override bool InitializeState()
@@ -26,31 +33,45 @@ public class robotGoShootPoint : AStateBehaviour
 
     public override void OnStateStart()
     {
+        isFacingDoor = false;
     }
 
     public override void OnStateUpdate()
     {
-        robot.GetComponent<NavMeshAgent>().destination = robotShootPoint.position;
-        robot.GetComponent<NavMeshAgent>().speed = speed_goDoor;
-        robot.GetComponent<NavMeshAgent>().angularSpeed = 360f;
-        //if(robot.transform.hasChanged == false)
-        //{
+        float distanceToDestinatison = Vector3.Distance(robot.transform.position, robotShootPoint.position);
+        if (distanceToDestinatison >= robot.GetComponent<NavMeshAgent>().stoppingDistance)
+        {
+            robot.GetComponent<NavMeshAgent>().destination = robotShootPoint.position;
+            robot.GetComponent<NavMeshAgent>().speed = speed_goDoor;
+            robot.GetComponent<NavMeshAgent>().angularSpeed = 360f;
 
-        //    robot.transform.hasChanged = true;
-        //}
-        //if (Vector3.Distance(robot.transform.position, robotShootPoint.position) <= 2f && isStopping == false)
-        //{
-        //    isStopping = true;
-        //    robot.transform.Rotate(new Vector3(0f, -90f, 0f) * speed_turn * Time.deltaTime);
-        //}
+        }
+        else if(isFacingDoor == false)
+        {
+            robot.transform.Rotate(new Vector3(0f, -90f, 0f) * speed_turn * Time.deltaTime);
+
+            Vector3 robotPositionXZ = transform.position;
+            Vector3 doorPositonXZ = door.position;
+            Vector3 forwardXZ = transform.forward;
+
+            robotPositionXZ.y = 0;
+            doorPositonXZ.y = 0;
+            forwardXZ.y = 0;
+
+            Vector3 direction = (doorPositonXZ - robotPositionXZ).normalized;
+            float dotProduct = Vector3.Dot(forwardXZ, direction);
+            if (dotProduct >= .9f)
+            {
+                isFacingDoor = true;
+            }
+        }
     }
 
     public override int StateTransitionCondition()
     {
-        if (Vector3.Distance(robot.transform.position, robotShootPoint.position) <= 2f && IEnumerator_hasLaunched == false)
+        if (isFacingDoor && IEnumerator_hasLaunched == false)
         {
             IEnumerator_hasLaunched = true;
-            robot.transform.Rotate(new Vector3(0f, -90f, 0f) * speed_turn * Time.deltaTime);
             StartCoroutine(Time_waitForShoot());
         }
 
@@ -59,7 +80,24 @@ public class robotGoShootPoint : AStateBehaviour
 
     IEnumerator Time_waitForShoot()
     {
-        yield return new WaitForSeconds(time_waitForShoot);
+        yield return new WaitForSeconds(time_shoot_0);
+        VFX_shoot[0].SetActive(true);
+
+        yield return new WaitForSeconds(time_shoot_1);
+        VFX_shoot[1].SetActive(true);
+
+        yield return new WaitForSeconds(time_shoot_2);
+        VFX_shoot[2].SetActive(true);
+
+        yield return new WaitForSeconds(time_doorCrush);
+        animator_doorCrush.enabled = true;
+        for(int i = 0; i <= 2; i++)
+        {
+            VFX_shoot[i].SetActive(false);
+        }
+
+        yield return new WaitForSeconds(time_finishing);
         AssociatedStateMachine.setState((int)ERobotState.afterShoot);
     }
+
 }

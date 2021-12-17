@@ -23,7 +23,7 @@ public class trigger_keyCardAccess : MonoBehaviour
         playerCamera = GameObject.FindWithTag("PlayerCamera");
         rend = GetComponent<Renderer>();
         rend.enabled = true;
-        doorMove = GetComponent<Animator>();
+        //doorMove = GetComponent<Animator>();
         //doorMove = gameObject.GetComponent<Animator>();
     }
 

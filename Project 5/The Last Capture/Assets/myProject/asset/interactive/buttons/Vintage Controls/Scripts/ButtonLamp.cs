@@ -15,16 +15,18 @@ public class ButtonLamp : MonoBehaviour
 
     GameObject player;
     GameObject playerCamera;
-    [SerializeField] GameObject prompt;
-    [SerializeField] float rayDistance = 2f;
-    bool isOpened = false;
     GameObject robot;
-    
-
-    public bool on;
+    [SerializeField] GameObject prompt;
     public Transform lamp;
     public eColor lightColor;
     Renderer rend;
+    [SerializeField] float rayDistance = 2f;
+    public bool on;
+    bool isOpened = false;
+
+    [SerializeField] Animator roboticArm;
+    [SerializeField] float time_roboticArmStart = 4f;
+    //bool hasLaunchedIEnumerator = false;
 
 
     // Start is called before the first frame update
@@ -39,20 +41,16 @@ public class ButtonLamp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) <= 2f && PlayerRay())
+        if (Vector3.Distance(transform.position, player.transform.position) <= 2f && PlayerRay() && isOpened == false)
         {
+                prompt.SetActive(true);
             if (Input.GetKeyDown(KeyCode.F))
             {
                 robot.GetComponent<StateMachine>().setState((int)ERobotState.goToChangePoint);
-
+                StartCoroutine(roboticArmWait());
                 prompt.SetActive(false);
                 lightColor = eColor.Green;
                 isOpened = true;
-            }
-
-            if (isOpened == false)
-            {
-                prompt.SetActive(true);
             }
         }
         else
@@ -96,5 +94,12 @@ public class ButtonLamp : MonoBehaviour
         Ray ray = new Ray(origin, direction);
         RaycastHit raycastHit;
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject;
+    }
+
+    IEnumerator roboticArmWait()
+    {
+        yield return new WaitForSeconds(time_roboticArmStart);
+            roboticArm.enabled = true;
+        //hasLaunchedIEnumerator = true;
     }
 }

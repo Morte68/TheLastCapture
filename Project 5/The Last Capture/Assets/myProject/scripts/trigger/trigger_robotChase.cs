@@ -16,7 +16,7 @@ public class trigger_robotChase : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             robot.GetComponent<StateMachine>().setState((int)ERobotState.Chase);
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }
