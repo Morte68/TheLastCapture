@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class robotPrepareProtect : AStateBehaviour
 {
+    [SerializeField] GameObject fire_end;
     [SerializeField] Transform teleportTarget = null;
     public override bool InitializeState()
     {
@@ -26,6 +27,10 @@ public class robotPrepareProtect : AStateBehaviour
 
     public override int StateTransitionCondition()
     {
+        if(fire_end.activeInHierarchy == true)
+        {
+            return (int)ERobotState.protect;
+        }
         return (int)ERobotState.Invalid;
     }
 }

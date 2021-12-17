@@ -12,6 +12,7 @@ public class robotAfterShoot : AStateBehaviour
     [SerializeField] Transform robotAfterShoot_right;
     [SerializeField] float speed_afterShoot = 4f;
     [SerializeField] float speed_turn = 0.1f;
+    bool hasSetDestination = false;
 
 
     public override bool InitializeState()
@@ -29,11 +30,13 @@ public class robotAfterShoot : AStateBehaviour
 
     public override void OnStateStart()
     {
+        hasSetDestination = false;
     }
 
     public override void OnStateUpdate()
     {
-
+        if (hasSetDestination)
+            return;
         agent.speed = speed_afterShoot;
         agent.angularSpeed = 360f;
 
@@ -54,10 +57,12 @@ public class robotAfterShoot : AStateBehaviour
         if (dotProduct_right > 0f)
         {
             agent.destination = robotAfterShoot_left.position;
+            hasSetDestination = true;
         }
         else
         {
             agent.destination = robotAfterShoot_right.position;
+            hasSetDestination = true;
         }
     }
 

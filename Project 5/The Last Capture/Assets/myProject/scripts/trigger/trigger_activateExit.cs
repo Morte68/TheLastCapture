@@ -56,6 +56,7 @@ public class trigger_activateExit : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);
+                GetComponent<FireSpreading>().enabled = true;
                 isTimeStart_countDown = true;
                 prompt.SetActive(false);
                 lightColor = eColor.Blue;

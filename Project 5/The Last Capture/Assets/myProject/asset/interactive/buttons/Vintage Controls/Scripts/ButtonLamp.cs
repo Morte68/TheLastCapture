@@ -17,6 +17,7 @@ public class ButtonLamp : MonoBehaviour
     GameObject playerCamera;
     GameObject robot;
     [SerializeField] GameObject prompt;
+    [SerializeField] GameObject[] VFX;
     public Transform lamp;
     public eColor lightColor;
     Renderer rend;
@@ -26,6 +27,9 @@ public class ButtonLamp : MonoBehaviour
 
     [SerializeField] Animator roboticArm;
     [SerializeField] float time_roboticArmStart = 4f;
+    [SerializeField] float time_VFX_0 = 1f;
+    [SerializeField] float time_VFX_1 = 1f;
+    [SerializeField] float time_VFX_2 = 1f;
     //bool hasLaunchedIEnumerator = false;
 
 
