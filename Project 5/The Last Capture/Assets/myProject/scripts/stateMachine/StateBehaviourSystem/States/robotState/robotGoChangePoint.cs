@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class robotGoChangePoint : AStateBehaviour
 {
     GameObject robot;
+    //[SerializeField] GameObject 
     [SerializeField] Transform robotChangePoint;
     [SerializeField] float speed_return = 8f;
     [SerializeField] float time_waitForChange = 10f;

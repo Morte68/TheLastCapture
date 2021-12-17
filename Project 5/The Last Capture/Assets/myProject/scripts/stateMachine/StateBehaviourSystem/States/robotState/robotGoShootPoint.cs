@@ -15,7 +15,7 @@ public class robotGoShootPoint : AStateBehaviour
     [SerializeField] float time_shoot_0 = 1.5f;
     [SerializeField] float time_shoot_1 = 1.5f;
     [SerializeField] float time_shoot_2 = 1.5f;
-    [SerializeField] float time_doorCrush = 7f;
+    [SerializeField] float time_doorCrush = 0.5f;
     [SerializeField] float time_finishing = 1.5f;
     bool IEnumerator_hasLaunched = false;
     bool isFacingDoor = false;
@@ -88,8 +88,9 @@ public class robotGoShootPoint : AStateBehaviour
 
         yield return new WaitForSeconds(time_shoot_2);
         VFX_shoot[2].SetActive(true);
-
+        
         yield return new WaitForSeconds(time_doorCrush);
+        VFX_shoot[3].SetActive(true);
         animator_doorCrush.enabled = true;
         for(int i = 0; i <= 2; i++)
         {
