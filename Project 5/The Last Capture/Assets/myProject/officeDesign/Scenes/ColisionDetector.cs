@@ -29,14 +29,14 @@ public class ColisionDetector : MonoBehaviour
         {
             Destroy(Piece1);
             Destroy(Piece2);
-            Instantiate(MergedPieces, transform);
+            Instantiate(MergedPieces, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         }
     }
     
     bool HasBothPieces() 
     {
         if (Piece1 != null && Piece2 != null)
-            return true;
+        return true; 
         return false;
     }
 }

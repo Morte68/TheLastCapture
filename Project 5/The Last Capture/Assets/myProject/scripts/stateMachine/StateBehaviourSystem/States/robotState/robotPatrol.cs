@@ -12,7 +12,7 @@ public class robotPatrol : AStateBehaviour
 
     void patrol()
     {
-        navMeshAgent.destination = patrolPoints[patrolIndex].position;
+        if(navMeshAgent.enabled == true) navMeshAgent.destination = patrolPoints[patrolIndex].position;
     }
 
     void patrolLoop()

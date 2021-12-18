@@ -12,6 +12,8 @@ TagManager:
   - Piece 1
   - Robot
   - PlayerCamera
+  - FxTemporaire
+  - Fire
   layers:
   - Default
   - TransparentFX

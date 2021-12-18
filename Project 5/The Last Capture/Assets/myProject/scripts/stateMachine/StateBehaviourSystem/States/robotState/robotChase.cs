@@ -43,7 +43,7 @@ public class robotChase : AStateBehaviour
 
         timer -= Time.deltaTime;
 
-        navMeshAgent.destination = player.transform.position;
+        if(navMeshAgent.enabled == true) navMeshAgent.destination = player.transform.position;
     }
 
     public override void OnStateEnd()

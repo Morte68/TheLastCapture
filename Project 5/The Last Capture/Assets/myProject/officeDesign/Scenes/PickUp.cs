@@ -8,7 +8,7 @@ public class PickUp : MonoBehaviour
 
     void OnMouseDown()
     {
-        GetComponent<BoxCollider>().enabled = false;
+        //GetComponent<BoxCollider>().enabled = false;
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         //GetComponent<Rigidbody>().isKinematic = true;

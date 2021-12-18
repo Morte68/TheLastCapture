@@ -8,6 +8,8 @@ public class robotProtect : AStateBehaviour
     [SerializeField] GameObject navMeshObstacle;
     NavMeshAgent agent;
     [SerializeField] Transform protectPoint = null;
+    [SerializeField] Animator robotShield;
+    bool isOpenedShield = false;
     public override bool InitializeState()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -27,6 +29,11 @@ public class robotProtect : AStateBehaviour
     public override void OnStateUpdate()
     {
         agent.destination = protectPoint.position;
+        if(Vector3.Distance(transform.position, protectPoint.position) <= agent.stoppingDistance && isOpenedShield == false)
+        {
+            robotShield.enabled = true;
+            isOpenedShield = true;
+        }
     }
 
     public override int StateTransitionCondition()
