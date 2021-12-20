@@ -6,10 +6,16 @@ using UnityEngine.AI;
 public class robotGoChangePoint : AStateBehaviour
 {
     GameObject robot;
-    //[SerializeField] GameObject 
+    [SerializeField] GameObject[] VFX_changes;
+    [SerializeField] GameObject[] VFX_electricity;
+    [SerializeField] GameObject[] robotFaces;
     [SerializeField] Transform robotChangePoint;
+    [SerializeField] Animator protectionGlassOpen;
     [SerializeField] float speed_return = 8f;
-    [SerializeField] float time_waitForChange = 10f;
+    [SerializeField] float time_waitForChange = 1f;
+    [SerializeField] float time_VFX_0 = 1f;
+    [SerializeField] float time_VFX_1 = 1f;
+    [SerializeField] float time_overwriteDoorOpen = 1f;
     bool hasLaunchedIENumerator = false;
 
 
@@ -25,6 +31,10 @@ public class robotGoChangePoint : AStateBehaviour
 
     public override void OnStateStart()
     {
+        for (int i = 0; i < VFX_electricity.Length; i++)
+        {
+            VFX_electricity[i].SetActive(false);
+        }
     }
 
     public override void OnStateUpdate()
@@ -48,6 +58,14 @@ public class robotGoChangePoint : AStateBehaviour
     IEnumerator WaitForFixTime ()
     {
         yield return new WaitForSeconds(time_waitForChange);
+        VFX_changes[0].SetActive(true);
+        yield return new WaitForSeconds(time_VFX_0);
+        VFX_changes[1].SetActive(true);
+        robotFaces[0].SetActive(false);
+        robotFaces[1].SetActive(true);
+        yield return new WaitForSeconds(time_VFX_1);
+        protectionGlassOpen.SetBool("isOpen", true);
+        yield return new WaitForSeconds(time_overwriteDoorOpen);
         AssociatedStateMachine.setState((int)ERobotState.goToShootPoint);
         //hasLaunchedIENumerator = false;
     }

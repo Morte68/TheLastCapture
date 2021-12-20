@@ -26,9 +26,11 @@ public class FireSpreading : MonoBehaviour
     public GameObject Fire20;
     public GameObject Fire21;
     public GameObject Fire22;
+    public GameObject fireMove;
     public float FireWaitTime;
     void Start()
     {
+        fireMove.SetActive(true);
         //Start the coroutine we define below named ExampleCoroutine.
         StartCoroutine(FireSpreadCoroutine());
     }

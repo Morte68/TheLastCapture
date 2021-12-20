@@ -17,7 +17,8 @@ public class ButtonLamp : MonoBehaviour
     GameObject playerCamera;
     GameObject robot;
     [SerializeField] GameObject prompt;
-    [SerializeField] GameObject[] VFX;
+    //[SerializeField] GameObject[] VFX;
+    [SerializeField] Animator protectionGlassClose;
     public Transform lamp;
     public eColor lightColor;
     Renderer rend;
@@ -27,9 +28,9 @@ public class ButtonLamp : MonoBehaviour
 
     [SerializeField] Animator roboticArm;
     [SerializeField] float time_roboticArmStart = 4f;
-    [SerializeField] float time_VFX_0 = 1f;
-    [SerializeField] float time_VFX_1 = 1f;
-    [SerializeField] float time_VFX_2 = 1f;
+    //[SerializeField] float time_VFX_0 = 1f;
+    //[SerializeField] float time_VFX_1 = 1f;
+    //[SerializeField] float time_VFX_2 = 1f;
     //bool hasLaunchedIEnumerator = false;
 
 
@@ -51,6 +52,7 @@ public class ButtonLamp : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 robot.GetComponent<StateMachine>().setState((int)ERobotState.goToChangePoint);
+                protectionGlassClose.enabled = true;
                 StartCoroutine(roboticArmWait());
                 prompt.SetActive(false);
                 lightColor = eColor.Green;
