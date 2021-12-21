@@ -17,6 +17,7 @@ public class trigger_activateExit : MonoBehaviour
     GameObject playerCamera;
     GameObject robot;
     [SerializeField] GameObject prompt;
+    [SerializeField] GameObject fireAmber;
     public Transform lamp;
     public eColor lightColor;
     Renderer rend;
@@ -55,6 +56,7 @@ public class trigger_activateExit : MonoBehaviour
             prompt.SetActive(true);
             if (Input.GetKeyDown(KeyCode.F))
             {
+                fireAmber.SetActive(true);
                 robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);
                 GetComponent<FireSpreading>().enabled = true;
                 isTimeStart_countDown = true;

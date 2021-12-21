@@ -6,6 +6,7 @@ public class robotPrepareProtect : AStateBehaviour
 {
     [SerializeField] GameObject fire_end;
     [SerializeField] Transform teleportTarget = null;
+    [SerializeField] Animator fireMove;
     public override bool InitializeState()
     {
         return true;
@@ -27,10 +28,11 @@ public class robotPrepareProtect : AStateBehaviour
 
     public override int StateTransitionCondition()
     {
-        if(fire_end.activeInHierarchy == true)
-        {
-            return (int)ERobotState.protect;
-        }
+        //if(fire_end.activeInHierarchy == true)
+        //{
+        //    return (int)ERobotState.protect;
+        //}
+        if (fireMove.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.98f) return (int)ERobotState.protect;
         return (int)ERobotState.Invalid;
     }
 }

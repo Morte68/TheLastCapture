@@ -11,6 +11,7 @@ public class robotGoChangePoint : AStateBehaviour
     [SerializeField] GameObject[] robotFaces;
     [SerializeField] Transform robotChangePoint;
     [SerializeField] Animator protectionGlassOpen;
+    [SerializeField] Animator armMove;
     [SerializeField] float speed_return = 8f;
     [SerializeField] float time_waitForChange = 1f;
     [SerializeField] float time_VFX_0 = 1f;

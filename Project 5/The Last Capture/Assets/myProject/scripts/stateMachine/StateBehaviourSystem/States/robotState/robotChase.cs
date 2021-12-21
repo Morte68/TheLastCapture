@@ -5,8 +5,11 @@ using UnityEngine.AI;
 
 public class robotChase : AStateBehaviour
 {
-    NavMeshAgent navMeshAgent;
     GameObject player;
+    NavMeshAgent navMeshAgent;
+    [SerializeField] Animator armMove;
+    [SerializeField] Renderer color_enemyFace;
+    Material colors_enemyFaceMaterial;
     [SerializeField] float maxTime;
     float timer;
     float rayDistance = 50.0f;
@@ -18,6 +21,8 @@ public class robotChase : AStateBehaviour
 
     public override bool InitializeState()
     {
+        colors_enemyFaceMaterial = color_enemyFace.sharedMaterial;
+
         player = GameObject.FindWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         return navMeshAgent != null;
@@ -26,6 +31,9 @@ public class robotChase : AStateBehaviour
     public override void OnStateStart()
     {
         ResetTimer();
+        armMove.enabled = true;
+
+        colors_enemyFaceMaterial.EnableKeyword("_EMISSION");
     }
 
     public override void OnStateUpdate()
@@ -48,6 +56,8 @@ public class robotChase : AStateBehaviour
 
     public override void OnStateEnd()
     {
+        colors_enemyFaceMaterial.DisableKeyword("_EMISSION");
+        armMove.enabled = false;
     }
 
     public override int StateTransitionCondition()

@@ -7,6 +7,7 @@ public class robotPatrol : AStateBehaviour
 {
     NavMeshAgent navMeshAgent;
     [SerializeField] Transform[] patrolPoints;
+    [SerializeField] Animator armMove;
     [SerializeField] float rayDistance = 50.0f;
     int patrolIndex = 0;
 
@@ -32,7 +33,6 @@ public class robotPatrol : AStateBehaviour
 
     public override void OnStateStart()
     {
-
     }
 
     public override void OnStateUpdate()

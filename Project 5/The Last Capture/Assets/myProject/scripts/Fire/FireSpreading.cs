@@ -25,7 +25,7 @@ public class FireSpreading : MonoBehaviour
     public GameObject Fire19;
     public GameObject Fire20;
     public GameObject Fire21;
-    public GameObject Fire22;
+    //public GameObject Fire22;
     public GameObject fireMove;
     public float FireWaitTime;
     void Start()
@@ -70,7 +70,7 @@ public class FireSpreading : MonoBehaviour
         Fire19.SetActive(true);
         Fire20.SetActive(true);
         Fire21.SetActive(true);
-        yield return new WaitForSeconds(10f);
-        Fire22.SetActive(true);
+        //yield return new WaitForSeconds(10f);
+        //Fire22.SetActive(true);
     }
 }

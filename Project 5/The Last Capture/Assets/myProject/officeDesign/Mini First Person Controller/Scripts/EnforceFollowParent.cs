@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnforceFollowParent : MonoBehaviour
 {
     public Transform transformToFollow = null;
-    void Update()
+    void FixedUpdate()
     {
         if(transformToFollow)
         {
