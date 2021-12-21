@@ -16,7 +16,7 @@ public class trigger_keycard : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player");
-        playerCamera = GameObject.FindWithTag("PlayerCamera");
+        playerCamera = GameObject.FindWithTag("MainCamera");
     }
 
     // Update is called once per frame
@@ -28,9 +28,7 @@ public class trigger_keycard : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                prompt.SetActive(false);
-                prompt_keycardAccess.text = "Press \"F\" to use the keycard!";
-                gameObject.SetActive(false);
+                Interact();
             }
         }
         else
@@ -49,5 +47,12 @@ public class trigger_keycard : MonoBehaviour
         Ray ray = new Ray(origion, direction);
         RaycastHit raycastHit;
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject;
+    }
+
+    public void  Interact()
+    {
+        prompt.SetActive(false);
+        prompt_keycardAccess.text = "Press \"F\" to use the keycard!";
+        gameObject.SetActive(false);
     }
 }

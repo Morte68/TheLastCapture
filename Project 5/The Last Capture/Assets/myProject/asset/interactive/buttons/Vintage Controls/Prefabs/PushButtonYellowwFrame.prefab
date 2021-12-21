@@ -54,6 +54,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -96,9 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5f39c5d8570ff4099153ac70495cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  on: 0
+  prompt: {fileID: 0}
+  protectionGlassClose: {fileID: 0}
   lamp: {fileID: 8017003943755828472}
   lightColor: 1
+  rayDistance: 2
+  on: 0
+  roboticArm: {fileID: 0}
+  time_roboticArmStart: 4
 --- !u!65 &7741052971395035358
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -124,6 +130,10 @@ PrefabInstance:
       value: LampFrame
       objectReference: {fileID: 0}
     - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -136,6 +146,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.00000008146034
       objectReference: {fileID: 0}
@@ -146,14 +160,6 @@ PrefabInstance:
     - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1752085699092767039, guid: c9c44f485f404d64fa10dba3109a365f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

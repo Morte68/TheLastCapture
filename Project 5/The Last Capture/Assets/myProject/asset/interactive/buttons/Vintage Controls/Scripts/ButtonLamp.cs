@@ -38,7 +38,7 @@ public class ButtonLamp : MonoBehaviour
     {
         robot = GameObject.FindWithTag("Robot");
         player = GameObject.FindWithTag("Player");
-        playerCamera = GameObject.FindWithTag("PlayerCamera");
+        playerCamera = GameObject.FindWithTag("MainCamera");
         rend = lamp.GetComponent<Renderer>();
     }
 
@@ -50,12 +50,7 @@ public class ButtonLamp : MonoBehaviour
                 prompt.SetActive(true);
             if (Input.GetKeyDown(KeyCode.F))
             {
-                robot.GetComponent<StateMachine>().setState((int)ERobotState.goToChangePoint);
-                protectionGlassClose.enabled = true;
-                StartCoroutine(roboticArmWait());
-                prompt.SetActive(false);
-                lightColor = eColor.Green;
-                isOpened = true;
+                Interact();
             }
         }
         else
@@ -106,5 +101,15 @@ public class ButtonLamp : MonoBehaviour
         yield return new WaitForSeconds(time_roboticArmStart);
             roboticArm.enabled = true;
         //hasLaunchedIEnumerator = true;
+    }
+
+    public void Interact()
+    {
+        robot.GetComponent<StateMachine>().setState((int)ERobotState.goToChangePoint);
+        protectionGlassClose.enabled = true;
+        StartCoroutine(roboticArmWait());
+        prompt.SetActive(false);
+        lightColor = eColor.Green;
+        isOpened = true;
     }
 }

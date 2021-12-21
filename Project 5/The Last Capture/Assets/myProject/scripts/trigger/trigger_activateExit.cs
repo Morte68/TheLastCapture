@@ -34,7 +34,7 @@ public class trigger_activateExit : MonoBehaviour
     {
         robot = GameObject.FindWithTag("Robot");
         player = GameObject.FindWithTag("Player");
-        playerCamera = GameObject.FindWithTag("PlayerCamera");
+        playerCamera = GameObject.FindWithTag("MainCamera");
         rend = lamp.GetComponent<Renderer>();
     }
 
@@ -56,13 +56,7 @@ public class trigger_activateExit : MonoBehaviour
             prompt.SetActive(true);
             if (Input.GetKeyDown(KeyCode.F))
             {
-                fireAmber.SetActive(true);
-                robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);
-                GetComponent<FireSpreading>().enabled = true;
-                isTimeStart_countDown = true;
-                prompt.SetActive(false);
-                lightColor = eColor.Blue;
-                isOpened = true;
+                Interact();
             }
         }
         else
@@ -106,5 +100,16 @@ public class trigger_activateExit : MonoBehaviour
         Ray ray = new Ray(origin, direction);
         RaycastHit raycastHit;
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject;
+    }
+
+    public void Interact()
+    {
+        fireAmber.SetActive(true);
+        robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);
+        GetComponent<FireSpreading>().enabled = true;
+        isTimeStart_countDown = true;
+        prompt.SetActive(false);
+        lightColor = eColor.Blue;
+        isOpened = true;
     }
 }

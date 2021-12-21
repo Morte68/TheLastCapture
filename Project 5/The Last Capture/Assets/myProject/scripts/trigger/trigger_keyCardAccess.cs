@@ -20,7 +20,7 @@ public class trigger_keyCardAccess : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player");
-        playerCamera = GameObject.FindWithTag("PlayerCamera");
+        playerCamera = GameObject.FindWithTag("MainCamera");
         rend = GetComponent<Renderer>();
         rend.enabled = true;
         //doorMove = GetComponent<Animator>();
@@ -32,14 +32,9 @@ public class trigger_keyCardAccess : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) <= 2f && PlayerRay())
         {
-            if(Input.GetKeyDown(KeyCode.F) && keycard.activeInHierarchy == false)
+            if(Input.GetKeyDown(KeyCode.F))
             {
-                prompt.SetActive(false);
-                rend.sharedMaterial = keycardAccess_open;
-                //GetComponent<Trigger_keyCardAccess>().enabled = false;
-                //doorMove.gameObject.GetComponent<Animator>().enabled = true;
-                doorMove.enabled = true;
-                isOpened = true;
+                Interact();
             }
 
             if(isOpened == false)
@@ -62,5 +57,18 @@ public class trigger_keyCardAccess : MonoBehaviour
         Ray ray = new Ray(origion, direction);
         RaycastHit raycastHit;
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject;
+    }
+
+    public void Interact()
+    {
+        if (keycard.activeInHierarchy)
+            return;
+
+        prompt.SetActive(false);
+        rend.sharedMaterial = keycardAccess_open;
+        //GetComponent<Trigger_keyCardAccess>().enabled = false;
+        //doorMove.gameObject.GetComponent<Animator>().enabled = true;
+        doorMove.enabled = true;
+        isOpened = true;
     }
 }
