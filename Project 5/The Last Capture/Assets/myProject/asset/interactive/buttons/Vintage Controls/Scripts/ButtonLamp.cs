@@ -45,7 +45,7 @@ public class ButtonLamp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) <= 2f && PlayerRay() && isOpened == false)
+        if (PlayerRay() && Vector3.Distance(transform.position, player.transform.position) <= 2f && isOpened == false)
         {
                 prompt.SetActive(true);
             if (Input.GetKeyDown(KeyCode.F))
