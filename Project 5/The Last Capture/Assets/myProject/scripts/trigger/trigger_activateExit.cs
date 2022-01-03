@@ -28,6 +28,10 @@ public class trigger_activateExit : MonoBehaviour
     bool isOpened = false;
     bool isTimeStart_countDown = false;
 
+    [SerializeField] GameObject debris;
+
+    [SerializeField] GameObject smokeFire;
+
 
     // Start is called before the first frame update
     void Start()
@@ -104,6 +108,7 @@ public class trigger_activateExit : MonoBehaviour
 
     public void Interact()
     {
+        smokeFire.SetActive(false);
         fireAmber.SetActive(true);
         robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);
         GetComponent<FireSpreading>().enabled = true;
@@ -111,5 +116,6 @@ public class trigger_activateExit : MonoBehaviour
         prompt.SetActive(false);
         lightColor = eColor.Blue;
         isOpened = true;
+        debris.SetActive(true);
     }
 }

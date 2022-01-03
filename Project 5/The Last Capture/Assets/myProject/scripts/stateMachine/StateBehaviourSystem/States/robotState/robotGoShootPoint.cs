@@ -20,6 +20,9 @@ public class robotGoShootPoint : AStateBehaviour
     bool IEnumerator_hasLaunched = false;
     bool isFacingDoor = false;
 
+    [SerializeField] GameObject sfx_loading;
+    [SerializeField] GameObject sfx_firing;
+
 
     public override bool InitializeState()
     {
@@ -82,6 +85,7 @@ public class robotGoShootPoint : AStateBehaviour
     {
         yield return new WaitForSeconds(time_shoot_0);
         VFX_shoot[0].SetActive(true);
+        sfx_loading.SetActive(true);
 
         yield return new WaitForSeconds(time_shoot_1);
         VFX_shoot[1].SetActive(true);
@@ -91,6 +95,7 @@ public class robotGoShootPoint : AStateBehaviour
         
         yield return new WaitForSeconds(time_doorCrush);
         VFX_shoot[3].SetActive(true);
+        sfx_firing.SetActive(true);
         animator_doorCrush.enabled = true;
         for(int i = 0; i <= 2; i++)
         {

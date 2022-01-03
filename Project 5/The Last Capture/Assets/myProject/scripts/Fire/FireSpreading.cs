@@ -25,9 +25,16 @@ public class FireSpreading : MonoBehaviour
     public GameObject Fire19;
     public GameObject Fire20;
     public GameObject Fire21;
+    public GameObject Fire22;
+    public GameObject Fire23;
+    public GameObject fire_exitPowerRoom;
+
+    public GameObject[] fires;
+
     //public GameObject Fire22;
     public GameObject fireMove;
     public float FireWaitTime;
+    public float timeTo_fire_exitPowerRoom = 10f;
     void Start()
     {
         fireMove.SetActive(true);
@@ -70,6 +77,14 @@ public class FireSpreading : MonoBehaviour
         Fire19.SetActive(true);
         Fire20.SetActive(true);
         Fire21.SetActive(true);
+        Fire22.SetActive(true);
+        Fire23.SetActive(true);
+        for (int i = 0; i < fires.Length; i++)
+        {
+            fires[i].SetActive(true);
+        }
+        yield return new WaitForSeconds(timeTo_fire_exitPowerRoom);
+        fire_exitPowerRoom.SetActive(true);
         //yield return new WaitForSeconds(10f);
         //Fire22.SetActive(true);
     }

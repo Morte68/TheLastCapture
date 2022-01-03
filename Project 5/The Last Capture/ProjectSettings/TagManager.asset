@@ -21,6 +21,7 @@ TagManager:
   - button f2
   - button f1
   - button f6
+  - Death
   layers:
   - Default
   - TransparentFX

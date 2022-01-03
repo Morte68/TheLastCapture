@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class robotPrepareProtect : AStateBehaviour
 {
-    [SerializeField] GameObject fire_end;
+    //[SerializeField] GameObject fire_end;
     [SerializeField] Transform teleportTarget = null;
     [SerializeField] Animator fireMove;
     public override bool InitializeState()
@@ -32,7 +32,7 @@ public class robotPrepareProtect : AStateBehaviour
         //{
         //    return (int)ERobotState.protect;
         //}
-        if (fireMove.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.98f) return (int)ERobotState.protect;
+        if (fireMove.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.77f) return (int)ERobotState.protect;
         return (int)ERobotState.Invalid;
     }
 }

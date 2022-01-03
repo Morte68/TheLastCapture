@@ -13,6 +13,17 @@ public class Health : MonoBehaviour
     [SerializeField] float time_waitForDamage = 0f;
     [SerializeField] float time_waitForDamage_max = 5f;
 
+    bool isStay_robot = false;
+    bool isStay_fire = false;
+
+    public bool isDamageable_robot = true;
+
+    [SerializeField] GameObject deathNote;
+    [SerializeField] GameObject player;
+
+    [SerializeField] GameObject scream;
+    [SerializeField] float time_scream = 1.5f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,21 +35,26 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurrentHealth <= 0)
-            triggerEnd();
+        Staying();
+        if (CurrentHealth <= 0) StartCoroutine(Death());
     }
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Robot"))
+        if (collision.gameObject.CompareTag("Robot") && isDamageable_robot == true)
         {
-        VFX_collision.SetActive(true);
+            isStay_robot = true;
+            VFX_collision.SetActive(true);
             CurrentHealth -= 1;
             StartCoroutine(RobotStop());
+            StartCoroutine(Scream());
         }
         else if (collision.gameObject.CompareTag("Fire"))
         {
+            isStay_fire = true;
             CurrentHealth -= 1;
+            StartCoroutine(Scream());
         }
+
         //switch(collision)
         //{
         //    case collision.gameObject.CompareTag("Robot"):
@@ -50,46 +66,78 @@ public class Health : MonoBehaviour
         //        break;
         //}
     }
-
-    void OnTriggerStay(Collider collision)
+    void Staying()
     {
-        if (collision.gameObject.CompareTag("Robot"))
+        if (isStay_robot == true)
         {
             time_waitForDamage += Time.deltaTime;
             if (time_waitForDamage >= time_waitForDamage_max)
             {
                 CurrentHealth -= 1;
                 StartCoroutine(RobotStop());
+                StartCoroutine(Scream());
+
                 time_waitForDamage = 0f;
             }
         }
-        else if (collision.gameObject.CompareTag("Fire"))
+        if(isStay_fire == true)
         {
             time_waitForDamage += Time.deltaTime;
             if (time_waitForDamage >= time_waitForDamage_max)
             {
                 CurrentHealth -= 1;
                 time_waitForDamage = 0f;
+                StartCoroutine(Scream());
             }
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.CompareTag("Death"))
+        {
+            CurrentHealth = 0;
+            StartCoroutine(Scream());
+        }
+    }
+
+    //void OnTriggerStay(Collider collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Robot"))
+    //    {
+    //        time_waitForDamage += Time.deltaTime;
+    //        if (time_waitForDamage >= time_waitForDamage_max)
+    //        {
+    //            CurrentHealth -= 1;
+    //            StartCoroutine(RobotStop());
+    //            time_waitForDamage = 0f;
+    //        }
+    //    }
+    //    else if (collision.gameObject.CompareTag("Fire"))
+    //    {
+    //        time_waitForDamage += Time.deltaTime;
+    //        if (time_waitForDamage >= time_waitForDamage_max)
+    //        {
+    //            CurrentHealth -= 1;
+    //            time_waitForDamage = 0f;
+    //        }
+    //    }
+    //}
+
     void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Robot"))
+        if (collision.gameObject.CompareTag("Robot") && isDamageable_robot == true)
         {
+            isStay_robot = false;
             time_waitForDamage = 0f;
             VFX_collision.SetActive(false);
         }
         else if (collision.gameObject.CompareTag("Fire"))
         {
+            isStay_fire = false;
             time_waitForDamage = 0f;
 
         }
-    }
-    private void triggerEnd()
-    {
-        SceneManager.LoadScene(0);
     }
 
     IEnumerator RobotStop()
@@ -97,5 +145,22 @@ public class Health : MonoBehaviour
         agent.enabled = false;
         yield return new WaitForSeconds(time_robotStop);
         agent.enabled = true;
+    }
+
+    IEnumerator Scream()
+    {
+        scream.SetActive(true);
+        yield return new WaitForSeconds(time_scream);
+        scream.SetActive(false);
+    }
+
+    IEnumerator Death()
+    {
+        deathNote.SetActive(true);
+        player.SetActive(false);
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(0);
+        deathNote.SetActive(false);
+        player.SetActive(true);
     }
 }

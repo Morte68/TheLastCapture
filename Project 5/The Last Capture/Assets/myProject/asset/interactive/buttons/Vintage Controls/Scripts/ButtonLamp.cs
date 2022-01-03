@@ -25,8 +25,11 @@ public class ButtonLamp : MonoBehaviour
     public bool on;
     bool isOpened = false;
 
-    [SerializeField] Animator roboticArm;
-    [SerializeField] float time_roboticArmStart = 4f;
+    [SerializeField] GameObject navMeshObstacle_robotControlRoom;
+
+    //[SerializeField] Animator roboticArm;
+    //[SerializeField] float time_roboticArmStart = 4f;
+
     //[SerializeField] float time_VFX_0 = 1f;
     //[SerializeField] float time_VFX_1 = 1f;
     //[SerializeField] float time_VFX_2 = 1f;
@@ -96,18 +99,19 @@ public class ButtonLamp : MonoBehaviour
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject;
     }
 
-    IEnumerator roboticArmWait()
-    {
-        yield return new WaitForSeconds(time_roboticArmStart);
-            roboticArm.enabled = true;
-        //hasLaunchedIEnumerator = true;
-    }
+    //IEnumerator roboticArmWait()
+    //{
+    //    yield return new WaitForSeconds(time_roboticArmStart);
+    //        roboticArm.enabled = true;
+    //    //hasLaunchedIEnumerator = true;
+    //}
 
     public void Interact()
     {
+        navMeshObstacle_robotControlRoom.SetActive(false);
         robot.GetComponent<StateMachine>().setState((int)ERobotState.goToChangePoint);
         protectionGlassClose.enabled = true;
-        StartCoroutine(roboticArmWait());
+        //StartCoroutine(roboticArmWait());
         prompt.SetActive(false);
         lightColor = eColor.Green;
         isOpened = true;
