@@ -23,6 +23,11 @@ public class robotGoShootPoint : AStateBehaviour
     [SerializeField] GameObject sfx_loading;
     [SerializeField] GameObject sfx_firing;
 
+    [Header("Material=========================")]
+    [SerializeField] Renderer rend;
+    [SerializeField] Material followMe;
+    [SerializeField] Material thankU;
+
 
     public override bool InitializeState()
     {
@@ -37,6 +42,7 @@ public class robotGoShootPoint : AStateBehaviour
     public override void OnStateStart()
     {
         isFacingDoor = false;
+        rend.sharedMaterial = followMe;
     }
 
     public override void OnStateUpdate()
@@ -103,6 +109,7 @@ public class robotGoShootPoint : AStateBehaviour
         }
 
         yield return new WaitForSeconds(time_finishing);
+        rend.sharedMaterial = thankU;
         AssociatedStateMachine.setState((int)ERobotState.afterShoot);
     }
 

@@ -16,24 +16,37 @@ public class trigger_activateExit : MonoBehaviour
     GameObject player;
     GameObject playerCamera;
     GameObject robot;
-    [SerializeField] GameObject prompt;
-    [SerializeField] GameObject fireAmber;
     public Transform lamp;
     public eColor lightColor;
     Renderer rend;
-    [SerializeField] Animator animator_exitDoor;
     [SerializeField] float rayDistance = 2f;
+    [SerializeField] GameObject panelScreen; 
+
+    [Header("UI==================================")]
+    [SerializeField] GameObject prompt;
+
+    [Header("VFX===================================")]
+    [SerializeField] GameObject fireAmber;
+    [SerializeField] GameObject smokeFire;
+
+    [Header("Animation======================================")]
+    [SerializeField] Animator animator_exitDoor;
+    [SerializeField] Animator animator_robotControlRoom_door_close;
     [SerializeField] float time_countDown = 30f;
+    [SerializeField] GameObject debris;
     public bool on;
     bool isOpened = false;
     bool isTimeStart_countDown = false;
+    [SerializeField] Animator upSideDown;
 
-    [SerializeField] GameObject debris;
-
-    [SerializeField] GameObject smokeFire;
-
+    [Header("Audio===================================")]
+    [SerializeField] float time_alarm = 3f;
+    //[SerializeField] AudioClip audioC_buttonNotification;
     AudioSource audioS;
-    [SerializeField] AudioClip audioC_buttonNotification;
+
+    [Header("Light======================")]
+    [SerializeField] GameObject light_spotLightRotate;
+
 
     // Start is called before the first frame update
     void Start()
@@ -111,7 +124,21 @@ public class trigger_activateExit : MonoBehaviour
 
     public void Interact()
     {
-        audioS.PlayOneShot(audioC_buttonNotification);
+        //show panel screen count down timer message
+        panelScreen.SetActive(true);
+
+        //close the door in robot control room with a animation
+        animator_robotControlRoom_door_close.SetBool("isClose", true);
+
+        //start alarm light rotating
+        light_spotLightRotate.SetActive(true);
+
+        // play alarm sound
+        StartCoroutine(PlayAlarm());
+
+        //enable male robot picture animator to a upsidedown state
+        upSideDown.enabled = true;
+
         smokeFire.SetActive(false);
         fireAmber.SetActive(true);
         robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);
@@ -121,5 +148,12 @@ public class trigger_activateExit : MonoBehaviour
         lightColor = eColor.Blue;
         isOpened = true;
         debris.SetActive(true);
+    }
+
+    IEnumerator PlayAlarm()
+    {
+        audioS.Play();
+        yield return new WaitForSeconds(time_alarm);
+        audioS.Pause();
     }
 }
