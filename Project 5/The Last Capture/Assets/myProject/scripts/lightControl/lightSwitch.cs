@@ -11,12 +11,17 @@ public class lightSwitch : MonoBehaviour
     [SerializeField] float shine = 0.5f;
     float timeRandom;
 
+    [SerializeField] GameObject object_ceilingLight;
+    //[SerializeField] Color colorOff;
+    //[SerializeField] Color colorOn;
+    Renderer rend;
+
     // Start is called before the first frame update
     void Start()
     {
-        timeRandom = Random.Range(timeMin, timeMax);
-        StartCoroutine(shinning());
+        StartCoroutine(Shinning());
         
+        rend = object_ceilingLight.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -24,13 +29,20 @@ public class lightSwitch : MonoBehaviour
     {
     }
 
-    IEnumerator shinning()
+    IEnumerator Shinning()
     {
+        timeRandom = Random.Range(timeMin, timeMax);
         yield return new WaitForSeconds(timeRandom);
+        StartCoroutine(Blink());
+        StartCoroutine(Shinning());
+    }
+
+    IEnumerator Blink()
+    {
         GetComponent<Light>().enabled = false;
+        rend.sharedMaterial.DisableKeyword("_EMISSION");
         yield return new WaitForSeconds(shine);
         GetComponent<Light>().enabled = true;
-        timeRandom = Random.Range(timeMin, timeMax);
-        StartCoroutine(shinning());
+        rend.sharedMaterial.EnableKeyword("_EMISSION");
     }
 }

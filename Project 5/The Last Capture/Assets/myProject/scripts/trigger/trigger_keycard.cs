@@ -6,10 +6,18 @@ using UnityEngine.UI;
 public class trigger_keycard : MonoBehaviour
 {
     GameObject player;
+    GameObject playerCamera;
+
+    [Header("******UI******")]
     [SerializeField] GameObject prompt;
     [SerializeField] Text prompt_keycardAccess;
+
+    [Header("******Audio******")]
+    [SerializeField] AudioClip audioC_notification;
+    [SerializeField] AudioSource audioS;
+
+    [Header("******Number******")]
     [SerializeField] float rayDistance = 1f;
-    GameObject playerCamera;
 
 
     // Start is called before the first frame update
@@ -49,8 +57,10 @@ public class trigger_keycard : MonoBehaviour
         return Physics.Raycast(ray, out raycastHit, rayDistance) && raycastHit.collider.gameObject;
     }
 
-    public void  Interact()
+    public void Interact()
     {
+        audioS.PlayOneShot(audioC_notification);
+        //audioS.enabled = true;
         prompt.SetActive(false);
         prompt_keycardAccess.text = "Press \"F\" to use the keycard!";
         gameObject.SetActive(false);

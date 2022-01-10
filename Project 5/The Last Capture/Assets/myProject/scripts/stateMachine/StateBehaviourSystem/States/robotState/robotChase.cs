@@ -13,6 +13,7 @@ public class robotChase : AStateBehaviour
     [SerializeField] float maxTime;
     float timer;
     float rayDistance = 50.0f;
+    [SerializeField] float speed_chase = 4f;
 
     public void ResetTimer()
     {
@@ -38,6 +39,8 @@ public class robotChase : AStateBehaviour
 
     public override void OnStateUpdate()
     {
+        navMeshAgent.speed = speed_chase;
+
         Vector3 origion = transform.position;
         Vector3 direction = transform.forward;
 

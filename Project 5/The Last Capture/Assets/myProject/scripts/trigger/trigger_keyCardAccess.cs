@@ -4,21 +4,31 @@ using UnityEngine;
 
 public class trigger_keyCardAccess : MonoBehaviour
 {
-    GameObject player;
-    [SerializeField] GameObject prompt;
-    [SerializeField] float rayDistance = 2f;
-    GameObject playerCamera;
+
     [SerializeField] GameObject keycard;
+    GameObject player;
+    GameObject playerCamera;
+    [SerializeField] float rayDistance = 2f;
+
+    [Header("UI =========================================")]
+    [SerializeField] GameObject prompt;
+
+    [Header("Material ======================================")]
     [SerializeField] Material keycardAccess_open;
     Renderer rend;
-    bool isOpened = false;
-    //[SerializeField] Script Trigger_keycardAccess;\
-    [SerializeField] Animator doorMove; 
 
+    [Header("Animation =====================================")]
+    [SerializeField] Animator doorMove; 
+    bool isOpened = false;
+
+    [Header("Audio =======================================")]
+    [SerializeField] AudioClip audio_access;
+    AudioSource audioS;
 
     // Start is called before the first frame update
     void Start()
     {
+        audioS = GetComponent<AudioSource>();
         player = GameObject.FindWithTag("Player");
         playerCamera = GameObject.FindWithTag("MainCamera");
         rend = GetComponent<Renderer>();
@@ -61,9 +71,8 @@ public class trigger_keyCardAccess : MonoBehaviour
 
     public void Interact()
     {
-        if (keycard.activeInHierarchy)
-            return;
-
+        if (keycard.activeInHierarchy) return;
+        audioS.PlayOneShot(audio_access);
         prompt.SetActive(false);
         rend.sharedMaterial = keycardAccess_open;
         //GetComponent<Trigger_keyCardAccess>().enabled = false;

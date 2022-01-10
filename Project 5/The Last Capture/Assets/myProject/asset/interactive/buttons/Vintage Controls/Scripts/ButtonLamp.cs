@@ -6,26 +6,35 @@ public class ButtonLamp : MonoBehaviour
 {
     public enum eColor
     {
-            Red,
-            Yellow,
-            Green,
-            Blue,
+        Red,
+        Yellow,
+        Green,
+        Blue,
     }
 
     GameObject player;
     GameObject playerCamera;
     GameObject robot;
-    [SerializeField] GameObject prompt;
-    //[SerializeField] GameObject[] VFX;
-    [SerializeField] Animator protectionGlassClose;
-    public Transform lamp;
-    public eColor lightColor;
     Renderer rend;
-    [SerializeField] float rayDistance = 2f;
-    public bool on;
     bool isOpened = false;
-
+    public Transform lamp;
+    public bool on;
+    public eColor lightColor;
+    [SerializeField] float rayDistance = 2f;
     [SerializeField] GameObject navMeshObstacle_robotControlRoom;
+
+    [Header("======UI======")]
+    [SerializeField] GameObject prompt;
+   
+    [Header("Animation =======================================================")]
+    [SerializeField] Animator protectionGlassClose;
+
+
+    [Header("audio")]
+    [SerializeField, Tooltip("this is an audio notificatioon")] AudioClip audioC_buttonNotification;
+    [SerializeField] GameObject audio_robotPeace;
+    [SerializeField] GameObject audio_robotAround;
+    AudioSource audioS;
 
     //[SerializeField] Animator roboticArm;
     //[SerializeField] float time_roboticArmStart = 4f;
@@ -43,6 +52,7 @@ public class ButtonLamp : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerCamera = GameObject.FindWithTag("MainCamera");
         rend = lamp.GetComponent<Renderer>();
+        audioS = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -108,6 +118,9 @@ public class ButtonLamp : MonoBehaviour
 
     public void Interact()
     {
+        audio_robotAround.SetActive(false);
+        audio_robotPeace.SetActive(true);
+        audioS.PlayOneShot(audioC_buttonNotification);
         navMeshObstacle_robotControlRoom.SetActive(false);
         robot.GetComponent<StateMachine>().setState((int)ERobotState.goToChangePoint);
         protectionGlassClose.enabled = true;

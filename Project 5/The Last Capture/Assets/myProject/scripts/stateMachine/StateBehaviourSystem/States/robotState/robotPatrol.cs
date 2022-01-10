@@ -10,6 +10,7 @@ public class robotPatrol : AStateBehaviour
     [SerializeField] Animator armMove;
     [SerializeField] float rayDistance = 50.0f;
     int patrolIndex = 0;
+    [SerializeField] float speed_patrol = 2f;
 
     void patrol()
     {
@@ -37,6 +38,7 @@ public class robotPatrol : AStateBehaviour
 
     public override void OnStateUpdate()
     {
+        navMeshAgent.speed = speed_patrol;
         patrol();
         if (Vector3.Distance(transform.position, patrolPoints[patrolIndex].position) < 2f)
         {

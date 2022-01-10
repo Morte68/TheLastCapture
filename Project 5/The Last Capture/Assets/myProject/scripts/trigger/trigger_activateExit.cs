@@ -32,6 +32,8 @@ public class trigger_activateExit : MonoBehaviour
 
     [SerializeField] GameObject smokeFire;
 
+    AudioSource audioS;
+    [SerializeField] AudioClip audioC_buttonNotification;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,7 @@ public class trigger_activateExit : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerCamera = GameObject.FindWithTag("MainCamera");
         rend = lamp.GetComponent<Renderer>();
+        audioS = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -108,6 +111,7 @@ public class trigger_activateExit : MonoBehaviour
 
     public void Interact()
     {
+        audioS.PlayOneShot(audioC_buttonNotification);
         smokeFire.SetActive(false);
         fireAmber.SetActive(true);
         robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);

@@ -35,7 +35,8 @@ public class robotGoChangePoint : AStateBehaviour
     [SerializeField] GameObject smokeFire;
     [SerializeField] GameObject sfx_mechanicalArm;
 
-
+    //[Header("Audio")]
+    //[SerializeField] GameObject audio_robotPeace;
 
 public override bool InitializeState()
     {
@@ -98,6 +99,7 @@ public override bool InitializeState()
         VFX_changes[1].SetActive(true);
         robotFaces[0].SetActive(false);
         robotFaces[1].SetActive(true);
+        //audio_robotPeace.SetActive(true);
         yield return new WaitForSeconds(time_VFX_1);
         protectionGlassOpen.SetBool("isOpen", true);
         yield return new WaitForSeconds(time_overwriteDoorOpen);
