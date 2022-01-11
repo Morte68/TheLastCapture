@@ -8,6 +8,7 @@ public class officeDoor_open : MonoBehaviour
     AudioSource audioS;
     [SerializeField] AudioClip audioC_doorOpening;
     //bool canMove = false;
+    [SerializeField] GameObject prompt;
 
 
     // Start is called before the first frame update
@@ -29,6 +30,7 @@ public class officeDoor_open : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Piece 3"))
         {
+            prompt.GetComponent<DoorPrompt_office>().enabled = false;
             audioS.PlayOneShot(audioC_doorOpening);
             //audioS.enabled = true;
             animation_officeDoor_open.enabled = true;

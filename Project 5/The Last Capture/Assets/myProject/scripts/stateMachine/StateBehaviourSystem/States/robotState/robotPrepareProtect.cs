@@ -32,7 +32,9 @@ public class robotPrepareProtect : AStateBehaviour
         //{
         //    return (int)ERobotState.protect;
         //}
-        if (fireMove.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.80f) return (int)ERobotState.protect;
+
+        //40s --> 0.8f
+        if (fireMove.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.85f) return (int)ERobotState.protect;
         return (int)ERobotState.Invalid;
     }
 }

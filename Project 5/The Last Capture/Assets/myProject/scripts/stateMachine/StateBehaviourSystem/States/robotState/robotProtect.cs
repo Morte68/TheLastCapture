@@ -18,6 +18,9 @@ public class robotProtect : AStateBehaviour
 
     [SerializeField] GameObject music_robotProtect;
 
+    [Header("VFX===================================")]
+    [SerializeField] GameObject fireAmber;
+
 
     public override bool InitializeState()
     {
@@ -35,6 +38,7 @@ public class robotProtect : AStateBehaviour
     {
         agent.enabled = true;
         navMeshObstacle.SetActive(true);
+        fireAmber.SetActive(true);
     }
 
     public override void OnStateUpdate()

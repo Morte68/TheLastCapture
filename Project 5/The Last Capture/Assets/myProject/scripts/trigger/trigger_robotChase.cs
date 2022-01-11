@@ -6,6 +6,17 @@ public class trigger_robotChase : MonoBehaviour
 {
     GameObject robot;
 
+    [Header("Audio===================================")]
+    [SerializeField] AudioClip lightning;
+    [SerializeField] AudioClip horror;
+    [SerializeField] AudioSource audioS;
+
+    [Header("Light=====================================")]
+    [SerializeField] GameObject light;
+    [SerializeField] Renderer rend;
+    //[SerializeField] Material white;
+    //[SerializeField] Material black;
+
     void Start()
     {
         robot = GameObject.FindWithTag("Robot");
@@ -16,6 +27,19 @@ public class trigger_robotChase : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             robot.GetComponent<StateMachine>().setState((int)ERobotState.Chase);
+            audioS.PlayOneShot(lightning);
+            StartCoroutine(light_shineOnce());
+            audioS.PlayOneShot(horror);
+        }
+
+        IEnumerator light_shineOnce()
+        {
+            yield return new WaitForSeconds(0.4f);
+            light.SetActive(true);
+            rend.sharedMaterial.EnableKeyword("_EMISSION");
+            yield return new WaitForSeconds(0.5f);
+            light.SetActive(false);
+            rend.sharedMaterial.DisableKeyword("_EMISSION");
             Destroy(gameObject);
         }
     }

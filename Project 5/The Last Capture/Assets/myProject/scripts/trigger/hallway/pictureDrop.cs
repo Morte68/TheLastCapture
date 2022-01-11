@@ -9,6 +9,8 @@ public class pictureDrop : MonoBehaviour
 
     [SerializeField] float time_toBreak = 3f;
 
+    [Header("Audio======================================================")]
+    [SerializeField] AudioClip audio_start;
     [SerializeField] AudioClip audio_break;
     [SerializeField] AudioSource audioS;
 
@@ -37,6 +39,7 @@ public class pictureDrop : MonoBehaviour
 
     IEnumerator Break()
     {
+        audioS.PlayOneShot(audio_start);
         yield return new WaitForSeconds(time_toBreak);
         audioS.PlayOneShot(audio_break);
         Destroy(gameObject);

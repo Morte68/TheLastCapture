@@ -20,10 +20,8 @@ public class trigger_activateExit : MonoBehaviour
     public eColor lightColor;
     Renderer rend;
     [SerializeField] float rayDistance = 2f;
-    [SerializeField] GameObject panelScreen; 
-
-    [Header("UI==================================")]
-    [SerializeField] GameObject prompt;
+    [SerializeField] GameObject panelScreen;
+    //[SerializeField] GameObject prompt;
 
     [Header("VFX===================================")]
     [SerializeField] GameObject fireAmber;
@@ -43,9 +41,16 @@ public class trigger_activateExit : MonoBehaviour
     [SerializeField] float time_alarm = 3f;
     //[SerializeField] AudioClip audioC_buttonNotification;
     AudioSource audioS;
+    [SerializeField] GameObject ambient_horror;
 
     [Header("Light======================")]
     [SerializeField] GameObject light_spotLightRotate;
+    [SerializeField] Light exitLight;
+    [SerializeField] float exitLight_intensity = 3f;
+
+    [Header("UI===================================")]
+    [SerializeField] GameObject prompt_startPower;
+    [SerializeField] GameObject prompt_door;
 
 
     // Start is called before the first frame update
@@ -73,7 +78,8 @@ public class trigger_activateExit : MonoBehaviour
         }
         if (Vector3.Distance(transform.position, player.transform.position) <= 2f && PlayerRay() && isOpened == false)
         {
-            prompt.SetActive(true);
+            //prompt.SetActive(true);
+            prompt_startPower.SetActive(true);
             if (Input.GetKeyDown(KeyCode.F))
             {
                 Interact();
@@ -81,7 +87,8 @@ public class trigger_activateExit : MonoBehaviour
         }
         else
         {
-            prompt.SetActive(false);
+            //prompt.SetActive(false);
+            prompt_startPower.SetActive(false);
         }
 
         if (on)
@@ -139,12 +146,24 @@ public class trigger_activateExit : MonoBehaviour
         //enable male robot picture animator to a upsidedown state
         upSideDown.enabled = true;
 
+        //disable prompts
+        prompt_startPower.SetActive(false);
+
+        //disable exit door prompt
+        prompt_door.GetComponent<DoorPrompt_office>().enabled = false;
+
+        //disable ambient sounds in the hall way
+        ambient_horror.SetActive(false);
+
+        // brighten the exit sign
+        exitLight.intensity = exitLight_intensity;
+
         smokeFire.SetActive(false);
         fireAmber.SetActive(true);
         robot.GetComponent<StateMachine>().setState((int)ERobotState.prepareProtect);
         GetComponent<FireSpreading>().enabled = true;
         isTimeStart_countDown = true;
-        prompt.SetActive(false);
+        //prompt.SetActive(false);
         lightColor = eColor.Blue;
         isOpened = true;
         debris.SetActive(true);
