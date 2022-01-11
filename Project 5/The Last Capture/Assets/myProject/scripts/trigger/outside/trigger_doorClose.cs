@@ -4,13 +4,29 @@ using UnityEngine;
 
 public class trigger_doorClose : MonoBehaviour
 {
+    [SerializeField] GameObject block;
+
+    [Header("Animation================================")]
     [SerializeField] Animator doorClose;
+
+    [Header("VFX==========================================")]
+    [SerializeField] GameObject endFire;
+    [SerializeField] float time_endFire = 14.5f;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            doorClose.SetBool("isClose", true);
+            StartCoroutine(Closing());
         }
+    }
+
+    IEnumerator Closing()
+    {
+        block.SetActive(true);
+        endFire.SetActive(true);
+        yield return new WaitForSeconds(time_endFire);
+            doorClose.SetBool("isClose", true);
+
     }
 }
