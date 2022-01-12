@@ -26,7 +26,14 @@ public class trigger_robotChase : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            robot.GetComponent<StateMachine>().setState((int)ERobotState.Chase);
+            if(robot == null)
+                robot = GameObject.FindWithTag("Robot");
+
+            StateMachine stateMachine = robot.GetComponent<StateMachine>();
+            if (stateMachine == null)
+                Debug.LogError("Failed To Find State Machine On Robot!");
+
+            stateMachine.setState((int)ERobotState.Chase);
             audioS.PlayOneShot(lightning);
             StartCoroutine(light_shineOnce());
             audioS.PlayOneShot(horror);
