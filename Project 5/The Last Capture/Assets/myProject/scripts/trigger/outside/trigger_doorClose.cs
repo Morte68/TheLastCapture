@@ -5,6 +5,7 @@ using UnityEngine;
 public class trigger_doorClose : MonoBehaviour
 {
     [SerializeField] GameObject block;
+    [SerializeField] GameObject block_back;
 
     [Header("Animation================================")]
     [SerializeField] Animator doorClose;
@@ -24,9 +25,11 @@ public class trigger_doorClose : MonoBehaviour
     IEnumerator Closing()
     {
         block.SetActive(true);
+        block_back.SetActive(true);
         endFire.SetActive(true);
         yield return new WaitForSeconds(time_endFire);
-            doorClose.SetBool("isClose", true);
-
+        doorClose.SetBool("isClose", true);
+        block_back.SetActive(false);
+        Destroy(gameObject);
     }
 }

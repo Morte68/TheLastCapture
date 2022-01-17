@@ -140,6 +140,7 @@ public class Health : MonoBehaviour
         }
     }
 
+    // robot stop after collide with player
     IEnumerator RobotStop()
     {
         agent.enabled = false;
@@ -147,6 +148,7 @@ public class Health : MonoBehaviour
         agent.enabled = true;
     }
 
+    // player screaming sfx
     IEnumerator Scream()
     {
         scream.SetActive(true);
@@ -154,6 +156,7 @@ public class Health : MonoBehaviour
         scream.SetActive(false);
     }
 
+    // player death screen and then restart the game
     IEnumerator Death()
     {
         deathNote.SetActive(true);

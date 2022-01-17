@@ -15,6 +15,7 @@ public class robotGoChangePoint : AStateBehaviour
     [SerializeField] Animator protectionGlassOpen;
     [SerializeField] Animator armMove;
     [SerializeField] Animator roboticArm;
+    [SerializeField] Animator sideChange;
 
     [SerializeField] float speed_return = 8f;
     [SerializeField] float time_waitForChange = 3f;
@@ -92,6 +93,7 @@ public override bool InitializeState()
     IEnumerator WaitForFixTime ()
     {
         yield return new WaitForSeconds(time_waitForChange);
+        sideChange.enabled = true;
         VFX_changes[0].SetActive(true);
         roboticArm.enabled = true;
         sfx_mechanicalArm.SetActive(true);
@@ -99,6 +101,7 @@ public override bool InitializeState()
         VFX_changes[1].SetActive(true);
         robotFaces[0].SetActive(false);
         robotFaces[1].SetActive(true);
+        sideChange.SetBool("isShrink", true);
         //audio_robotPeace.SetActive(true);
         yield return new WaitForSeconds(time_VFX_1);
         protectionGlassOpen.SetBool("isOpen", true);

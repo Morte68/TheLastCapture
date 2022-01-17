@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class trigger_robotChase : MonoBehaviour
 {
-    GameObject robot;
+    GameObject robot = null;
+    StateMachine stateMachine = null;
 
     [Header("Audio===================================")]
     [SerializeField] AudioClip lightning;
@@ -17,22 +18,28 @@ public class trigger_robotChase : MonoBehaviour
     //[SerializeField] Material white;
     //[SerializeField] Material black;
 
+    [Header("Animator======================================")]
+    [SerializeField] Animator door;
+
     void Start()
     {
-        robot = GameObject.FindWithTag("Robot");
+        var listOfObjects = GameObject.FindGameObjectsWithTag("Robot");
+        for (int i = 0; i < listOfObjects.Length; ++i)
+        {
+            var stateMachineTempVariable = listOfObjects[i].GetComponent<StateMachine>();
+            if (stateMachineTempVariable != null)
+            {
+                robot = listOfObjects[i];
+                stateMachine = stateMachineTempVariable;
+                break;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            if(robot == null)
-                robot = GameObject.FindWithTag("Robot");
-
-            StateMachine stateMachine = robot.GetComponent<StateMachine>();
-            if (stateMachine == null)
-                Debug.LogError("Failed To Find State Machine On Robot!");
-
             stateMachine.setState((int)ERobotState.Chase);
             audioS.PlayOneShot(lightning);
             StartCoroutine(light_shineOnce());
@@ -47,6 +54,7 @@ public class trigger_robotChase : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             light.SetActive(false);
             rend.sharedMaterial.DisableKeyword("_EMISSION");
+            door.SetBool("isOpen", true);
             Destroy(gameObject);
         }
     }

@@ -8,11 +8,12 @@ public class robotChase : AStateBehaviour
     GameObject player;
     NavMeshAgent navMeshAgent;
     [SerializeField] Animator armMove;
+    [SerializeField] Animator headRotate;
     [SerializeField] Renderer color_enemyFace;
     Material colors_enemyFaceMaterial;
     [SerializeField] float maxTime;
     float timer;
-    float rayDistance = 50.0f;
+    [SerializeField] float rayDistance = 50.0f;
     [SerializeField] float speed_chase = 4f;
 
     public void ResetTimer()
@@ -33,6 +34,7 @@ public class robotChase : AStateBehaviour
     {
         ResetTimer();
         armMove.enabled = true;
+        headRotate.enabled = true;
 
         colors_enemyFaceMaterial.EnableKeyword("_EMISSION");
     }
@@ -61,6 +63,7 @@ public class robotChase : AStateBehaviour
     {
         colors_enemyFaceMaterial.DisableKeyword("_EMISSION");
         armMove.enabled = false;
+        headRotate.enabled = false;
     }
 
     public override int StateTransitionCondition()

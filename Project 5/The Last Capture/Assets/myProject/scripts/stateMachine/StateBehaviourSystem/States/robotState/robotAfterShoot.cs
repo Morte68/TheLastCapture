@@ -31,6 +31,7 @@ public class robotAfterShoot : AStateBehaviour
     public override void OnStateStart()
     {
         hasSetDestination = false;
+        agent.enabled = true;
     }
 
     public override void OnStateUpdate()

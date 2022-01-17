@@ -6,6 +6,12 @@ using UnityEngine.AI;
 public class robotGoShootPoint : AStateBehaviour
 {
     GameObject robot;
+    NavMeshAgent navMeshAgent;
+    [SerializeField] Transform playerPosition;
+
+    // degree of rotation each sec
+    [SerializeField] float speed = 30f;
+
     [SerializeField] GameObject[] VFX_shoot;
     [SerializeField] Transform door;
     [SerializeField] Transform robotShootPoint;
@@ -20,6 +26,9 @@ public class robotGoShootPoint : AStateBehaviour
     bool IEnumerator_hasLaunched = false;
     bool isFacingDoor = false;
 
+    [SerializeField] GameObject range_move;
+    bool isStoppable = true;
+
     [SerializeField] GameObject sfx_loading;
     [SerializeField] GameObject sfx_firing;
 
@@ -32,6 +41,7 @@ public class robotGoShootPoint : AStateBehaviour
     public override bool InitializeState()
     {
         robot = GameObject.FindWithTag("Robot");
+        navMeshAgent = GetComponent<NavMeshAgent>();
         return robot;
     }
 
@@ -43,35 +53,56 @@ public class robotGoShootPoint : AStateBehaviour
     {
         isFacingDoor = false;
         rend.sharedMaterial = followMe;
+        navMeshAgent.speed = speed_goDoor;
+        navMeshAgent.angularSpeed = 360f;
     }
 
     public override void OnStateUpdate()
     {
-        float distanceToDestinatison = Vector3.Distance(robot.transform.position, robotShootPoint.position);
-        if (distanceToDestinatison >= robot.GetComponent<NavMeshAgent>().stoppingDistance)
-        {
-            robot.GetComponent<NavMeshAgent>().destination = robotShootPoint.position;
-            robot.GetComponent<NavMeshAgent>().speed = speed_goDoor;
-            robot.GetComponent<NavMeshAgent>().angularSpeed = 360f;
+       float distanceToDestinatison = Vector3.Distance(robot.transform.position, robotShootPoint.position);
+        var rot = Quaternion.LookRotation(transform.position - playerPosition.position);
 
+        if (distanceToDestinatison <= robot.GetComponent<NavMeshAgent>().stoppingDistance + 1)
+        {
+            isStoppable = false;
         }
-        else if(isFacingDoor == false)
+        if(range_move.GetComponent<RobotMove>().isStaying == true)
         {
-            robot.transform.Rotate(new Vector3(0f, -90f, 0f) * speed_turn * Time.deltaTime);
-
-            Vector3 robotPositionXZ = transform.position;
-            Vector3 doorPositonXZ = door.position;
-            Vector3 forwardXZ = transform.forward;
-
-            robotPositionXZ.y = 0;
-            doorPositonXZ.y = 0;
-            forwardXZ.y = 0;
-
-            Vector3 direction = (doorPositonXZ - robotPositionXZ).normalized;
-            float dotProduct = Vector3.Dot(forwardXZ, direction);
-            if (dotProduct >= .9f)
+            navMeshAgent.enabled = true;
+            if (distanceToDestinatison >= robot.GetComponent<NavMeshAgent>().stoppingDistance)
             {
-                isFacingDoor = true;
+                navMeshAgent.destination = robotShootPoint.position;
+            }
+            else if (isFacingDoor == false)
+            {
+                isStoppable = false;
+                robot.transform.Rotate(new Vector3(0f, -90f, 0f) * speed_turn * Time.deltaTime);
+
+                Vector3 robotPositionXZ = transform.position;
+                Vector3 doorPositonXZ = door.position;
+                Vector3 forwardXZ = transform.forward;
+
+                robotPositionXZ.y = 0;
+                doorPositonXZ.y = 0;
+                forwardXZ.y = 0;
+
+                Vector3 direction = (doorPositonXZ - robotPositionXZ).normalized;
+                float dotProduct = Vector3.Dot(forwardXZ, direction);
+                if (dotProduct >= 0.9f)
+                {
+                    isFacingDoor = true;
+                }
+            }
+        }
+        else
+        {
+            if (isStoppable == true)
+            {
+                navMeshAgent.enabled = false;
+                //transform.LookAt(playerPosition);
+                
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speed * Time.deltaTime); //rotate towards over time
+
             }
         }
     }
@@ -87,6 +118,7 @@ public class robotGoShootPoint : AStateBehaviour
         return (int)ERobotState.Invalid;
     }
 
+    // robot shooting sequence
     IEnumerator Time_waitForShoot()
     {
         yield return new WaitForSeconds(time_shoot_0);
